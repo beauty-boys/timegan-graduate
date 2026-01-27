@@ -120,7 +120,7 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument(
       '--data_name',
-      choices=['sine','stock','energy'],
+      choices=['sine','stock','energy','ETTh1', 'ETTh2', 'ETTm1', 'ETTm2'],
       default='stock',
       type=str)
   parser.add_argument(

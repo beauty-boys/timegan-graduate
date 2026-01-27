@@ -34,7 +34,7 @@ warnings.filterwarnings("ignore")
 # 1. TimeGAN model
 from timegan import timegan
 # 2. Data loading
-from data_loading import real_data_loading, sine_data_generation
+from data_loading import real_data_loading, sine_data_generation, EEH_data_loading
 # 3. Metrics
 from metrics.discriminative_metrics import discriminative_score_metrics
 from metrics.predictive_metrics import predictive_score_metrics
@@ -67,6 +67,8 @@ def main (args):
     # Set number of samples and its dimensions
     no, dim = 10000, 5
     ori_data = sine_data_generation(no, args.seq_len, dim)
+  elif args.data_name in ['ETTh1', 'ETTh2', 'ETTm1', 'ETTm2']:
+    ori_data = EEH_data_loading(args.data_name, args.seq_len)
     
   print(args.data_name + ' dataset is ready.')
     

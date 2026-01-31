@@ -80,6 +80,8 @@ def main (args):
   parameters['num_layer'] = args.num_layer
   parameters['iterations'] = args.iteration
   parameters['batch_size'] = args.batch_size
+  parameters['save_file'] = args.save_dir
+
       
   generated_data = timegan(ori_data, parameters)   
   print('Finish Synthetic Data Generation')
@@ -105,8 +107,9 @@ def main (args):
   metric_results['predictive'] = np.mean(predictive_score)     
           
   # 3. Visualization (PCA and tSNE)
-  visualization(ori_data, generated_data, 'pca')
-  visualization(ori_data, generated_data, 'tsne')
+  print("-------------- hello_world -------------")
+  visualization(ori_data, generated_data, 'pca',args.save_dir)
+  visualization(ori_data, generated_data, 'tsne',args.save_dir)
   
   ## Print discriminative and predictive scores
   print(metric_results)
@@ -158,6 +161,11 @@ if __name__ == '__main__':
       help='iterations of the metric computation',
       default=10,
       type=int)
+  parser.add_argument(
+      '--save_dir',
+      help='save the result of the timegan',
+      default='./result/',
+      type=str)
   
   args = parser.parse_args() 
   

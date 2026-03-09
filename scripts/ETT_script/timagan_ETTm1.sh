@@ -11,7 +11,7 @@ python3 main_timegan.py \
   --iteration 50000 \
   --batch_size 128 \
   --metric_iteration 10 \
-  > log/timegan_gru_ETTm1.log 2>&1 &
+  > log/timegan_gru_ETTm1.log 2>&1
 
 echo "GRU finished"
 
@@ -24,6 +24,6 @@ python3 main_timegan.py \
   --iteration 50000 \
   --batch_size 128 \
   --metric_iteration 10 \
-  > log/timegan_lstm_ETTm1.log 2>&1 &
+  > log/timegan_lstm_ETTm1.log 2>&1 
 
 echo "LSTM finished"

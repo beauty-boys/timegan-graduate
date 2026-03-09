@@ -2,7 +2,7 @@
 
 mkdir -p log
 
-nohup python3 main_timegan.py \
+python3 main_timegan.py \
   --data_name ETTm1 \
   --seq_len 96 \
   --module gru \
@@ -13,9 +13,9 @@ nohup python3 main_timegan.py \
   --metric_iteration 10 \
   > log/timegan_gru_ETTm1.log 2>&1 &
 
-echo "GRU PID: $!"
+echo "GRU finished"
 
-nohup python3 main_timegan.py \
+python3 main_timegan.py \
   --data_name ETTm1 \
   --seq_len 96 \
   --module lstm \
@@ -26,4 +26,4 @@ nohup python3 main_timegan.py \
   --metric_iteration 10 \
   > log/timegan_lstm_ETTm1.log 2>&1 &
 
-echo "LSTM PID: $!"
+echo "LSTM finished"

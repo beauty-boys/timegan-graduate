@@ -39,6 +39,7 @@ from data_loading import real_data_loading, sine_data_generation, EEH_data_loadi
 from metrics.discriminative_metrics import discriminative_score_metrics
 from metrics.predictive_metrics import predictive_score_metrics
 from metrics.visualization_metrics import visualization
+import os
 
 
 def main (args):
@@ -80,9 +81,30 @@ def main (args):
   parameters['num_layer'] = args.num_layer
   parameters['iterations'] = args.iteration
   parameters['batch_size'] = args.batch_size
-  parameters['save_file'] = args.save_dir
+  parameters['model_dir'] = args.run_dir
 
-      
+  run_dir = args.run_dir
+  model_dir = os.path.join(run_dir, 'model')
+  fig_dir = os.path.join(run_dir, 'figures')
+  gen_dir = os.path.join(run_dir, 'generated')
+
+  os.makedirs(run_dir, exist_ok=True)
+  os.makedirs(model_dir, exist_ok=True)
+  os.makedirs(fig_dir, exist_ok=True)
+  os.makedirs(gen_dir, exist_ok=True)
+  parameters['model_dir'] = model_dir
+  parameters['fig_dir'] = fig_dir
+  parameters['gen_dir'] = gen_dir
+
+  with open(os.path.join(run_dir, "config.txt"), "a") as f:
+      f.write(f"module={args.module}\n")
+      f.write(f"hidden_dim={args.hidden_dim}\n")
+      f.write(f"num_layer={args.num_layer}\n")
+      f.write(f"iteration={args.iteration}\n")
+      f.write(f"batch_size={args.batch_size}\n")
+      f.write(f"metric_iteration={args.metric_iteration}\n")
+
+
   generated_data = timegan(ori_data, parameters)   
   print('Finish Synthetic Data Generation')
   
@@ -107,8 +129,8 @@ def main (args):
   metric_results['predictive'] = np.mean(predictive_score)     
           
   # 3. Visualization (PCA and tSNE)
-  visualization(ori_data, generated_data, 'pca',args.save_dir)
-  visualization(ori_data, generated_data, 'tsne',args.save_dir)
+  visualization(ori_data, generated_data, 'pca',fig_dir)
+  visualization(ori_data, generated_data, 'tsne',fig_dir)
   
   ## Print discriminative and predictive scores
   print(metric_results)
@@ -161,12 +183,13 @@ if __name__ == '__main__':
       default=10,
       type=int)
   parser.add_argument(
-      '--save_dir',
-      help='save the result of the timegan',
-      default='./result/',
+      '--run_dir',
+      help="save the result of the timegan",
+      default='./runs/default',
       type=str)
   
-  args = parser.parse_args() 
-  
+  args = parser.parse_args()
+
+
   # Calls main function  
   ori_data, generated_data, metrics = main(args)

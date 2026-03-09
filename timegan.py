@@ -21,7 +21,7 @@ import tensorflow as tf
 import numpy as np
 from utils import extract_time, rnn_cell, random_generator, batch_generator
 import os
-
+import pickle
 
 def timegan (ori_data, parameters):
   """TimeGAN function.
@@ -76,7 +76,10 @@ def timegan (ori_data, parameters):
   module_name  = parameters['module'] 
   z_dim        = dim
   gamma        = 1
-    
+
+  model_dir = parameters['model_dir']
+  gen_dir = parameters['gen_dir']
+
   # Input place holders
   X = tf.placeholder(tf.float32, [None, max_seq_len, dim], name = "myinput_x")
   Z = tf.placeholder(tf.float32, [None, max_seq_len, z_dim], name = "myinput_z")
@@ -309,11 +312,14 @@ def timegan (ori_data, parameters):
   generated_data = generated_data + min_val
 
   # ===== 保存模型 =====
-  save_dir = "./timegan_final"
-  if not os.path.exists(save_dir):
-    os.makedirs(save_dir)
-
-  save_path = saver.save(sess, save_dir + "/timegan.ckpt")
+  save_dir = model_dir
+  save_path = saver.save(sess, os.path.join(save_dir, "timegan.ckpt"))
   print("Model saved at:", save_path)
-    
+
+  np.save(os.path.join(gen_dir, "generated_data.npy"),
+          np.array(generated_data, dtype=object))
+
+  with open(os.path.join(gen_dir, "generated_data.pkl"), "wb") as f:
+    pickle.dump(generated_data, f)
+
   return generated_data

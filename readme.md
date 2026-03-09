@@ -35,5 +35,5 @@
 ### 文件执行
 
 ```bash
-nohup bash ./scripts/ETT_script/timagan_ETTm1.sh > run_timegan_master.log 2>&1 &
+nohup bash ./scripts/ETT_script/timagan_ETTm1.sh > /dev/null 2>&1 &
 ```

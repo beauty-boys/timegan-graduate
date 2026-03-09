@@ -1,8 +1,27 @@
 #!/bin/bash
 
-mkdir -p log
+set -e
 
-echo "$(date '+%F %T') [START] GRU" >> log/run_timegan_master.log
+RUN_ID=$(date '+%Y%m%d_%H%M%S')_ETTm1
+RUN_DIR=./runs/${RUN_ID}
+
+mkdir -p "${RUN_DIR}"
+mkdir -p "${RUN_DIR}/gru"
+mkdir -p "${RUN_DIR}/lstm"
+
+echo "RUN_ID=${RUN_ID}" > "${RUN_DIR}/config.txt"
+echo "START_TIME=$(date '+%F %T')" >> "${RUN_DIR}/config.txt"
+echo "data_name=ETTm1" >> "${RUN_DIR}/config.txt"
+echo "seq_len=96" >> "${RUN_DIR}/config.txt"
+echo "hidden_dim=24" >> "${RUN_DIR}/config.txt"
+echo "num_layer=3" >> "${RUN_DIR}/config.txt"
+echo "iteration=50000" >> "${RUN_DIR}/config.txt"
+echo "batch_size=128" >> "${RUN_DIR}/config.txt"
+echo "metric_iteration=10" >> "${RUN_DIR}/config.txt"
+
+echo "$(date '+%F %T') [SCRIPT START]" >> "${RUN_DIR}/master.log"
+
+echo "$(date '+%F %T') [START] GRU" >> "${RUN_DIR}/master.log"
 python3 -u main_timegan.py \
   --data_name ETTm1 \
   --seq_len 96 \
@@ -12,11 +31,11 @@ python3 -u main_timegan.py \
   --iteration 50000 \
   --batch_size 128 \
   --metric_iteration 10 \
-  > log/timegan_gru_ETTm1.log 2>&1
+  --run_dir "${RUN_DIR}/gru" \
+  >> "${RUN_DIR}/gru/train.log" 2>> "${RUN_DIR}/gru/error.log"
+echo "$(date '+%F %T') [END] GRU" >> "${RUN_DIR}/master.log"
 
-echo "$(date '+%F %T') GRU finished" >> log/run_timegan_master.log
-
-echo "$(date '+%F %T') [START] LSTM" >> log/run_timegan_master.log
+echo "$(date '+%F %T') [START] LSTM" >> "${RUN_DIR}/master.log"
 python3 -u main_timegan.py \
   --data_name ETTm1 \
   --seq_len 96 \
@@ -26,8 +45,8 @@ python3 -u main_timegan.py \
   --iteration 50000 \
   --batch_size 128 \
   --metric_iteration 10 \
-  > log/timegan_lstm_ETTm1.log 2>&1
+  --run_dir "${RUN_DIR}/lstm" \
+  >> "${RUN_DIR}/lstm/train.log" 2>> "${RUN_DIR}/lstm/error.log"
+echo "$(date '+%F %T') [END] LSTM" >> "${RUN_DIR}/master.log"
 
-echo "$(date '+%F %T') LSTM finished" >> log/run_timegan_master.log
-
-echo "$(date '+%F %T') [SCRIPT END]" >> log/run_timegan_master.log
+echo "$(date '+%F %T') [SCRIPT END]" >> "${RUN_DIR}/master.log"

@@ -30,3 +30,10 @@
       - random_generator用于生成随机噪声：生成0-1的均匀分布的随机采样 `[T_mb[i], z_dim]`
       - batch_generator 这个函数用来每次训练时随机抽一个 mini-batch
    6. requirements.txt python所依赖的环境
+
+
+### 文件执行
+
+```bash
+nohup bash ./scripts/ETT_script/timagan_ETTm1.sh > run_timegan_master.log 2>&1 &
+```

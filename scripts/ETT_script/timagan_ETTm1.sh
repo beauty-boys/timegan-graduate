@@ -3,7 +3,7 @@
 mkdir -p log
 
 echo "$(date '+%F %T') [START] GRU" >> log/run_timegan_master.log
-python3 main_timegan.py \
+python3 -u main_timegan.py \
   --data_name ETTm1 \
   --seq_len 96 \
   --module gru \
@@ -17,7 +17,7 @@ python3 main_timegan.py \
 echo "$(date '+%F %T') GRU finished" >> log/run_timegan_master.log
 
 echo "$(date '+%F %T') [START] LSTM" >> log/run_timegan_master.log
-python3 main_timegan.py \
+python3 -u main_timegan.py \
   --data_name ETTm1 \
   --seq_len 96 \
   --module lstm \
@@ -29,3 +29,5 @@ python3 main_timegan.py \
   > log/timegan_lstm_ETTm1.log 2>&1
 
 echo "$(date '+%F %T') LSTM finished" >> log/run_timegan_master.log
+
+echo "$(date '+%F %T') [SCRIPT END]" >> log/run_timegan_master.log

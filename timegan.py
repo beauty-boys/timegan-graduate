@@ -20,6 +20,7 @@ Note: Use original data as training set to generater synthetic data (time-series
 import tensorflow as tf
 import numpy as np
 from utils import extract_time, rnn_cell, random_generator, batch_generator
+import os
 
 
 def timegan (ori_data, parameters):
@@ -184,7 +185,10 @@ def timegan (ori_data, parameters):
   g_vars = [v for v in tf.trainable_variables() if v.name.startswith('generator')]
   s_vars = [v for v in tf.trainable_variables() if v.name.startswith('supervisor')]
   d_vars = [v for v in tf.trainable_variables() if v.name.startswith('discriminator')]
-    
+  saver = tf.train.Saver(
+    var_list=e_vars + r_vars + g_vars + s_vars + d_vars
+  )
+
   # Discriminator loss
   D_loss_real = tf.losses.sigmoid_cross_entropy(tf.ones_like(Y_real), Y_real)
   D_loss_fake = tf.losses.sigmoid_cross_entropy(tf.zeros_like(Y_fake), Y_fake)
@@ -303,5 +307,13 @@ def timegan (ori_data, parameters):
   # Renormalization
   generated_data = generated_data * max_val
   generated_data = generated_data + min_val
+
+  # ===== 保存模型 =====
+  save_dir = "./timegan_final"
+  if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
+
+  save_path = saver.save(sess, save_dir + "/timegan.ckpt")
+  print("Model saved at:", save_path)
     
   return generated_data

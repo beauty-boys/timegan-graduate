@@ -107,7 +107,6 @@ def main (args):
   metric_results['predictive'] = np.mean(predictive_score)     
           
   # 3. Visualization (PCA and tSNE)
-  print("-------------- hello_world -------------")
   visualization(ori_data, generated_data, 'pca',args.save_dir)
   visualization(ori_data, generated_data, 'tsne',args.save_dir)
   

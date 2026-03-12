@@ -35,10 +35,12 @@
 ### 文件执行
 
 ```bash
-nohup bash ./scripts/ETT_script/timagan_ETTm1.sh > /dev/null 2>&1 &
-nohup bash ./scripts/ETT_script/timagan_ETTm2.sh > /dev/null 2>&1 &
-nohup bash ./scripts/ETT_script/timagan_ETTh1.sh > /dev/null 2>&1 &
-nohup bash ./scripts/ETT_script/timagan_ETTh2.sh > /dev/null 2>&1 &
+nohup bash ./scripts/ETT_script/timegan_ETTm1.sh > /dev/null 2>&1 &
+nohup bash ./scripts/ETT_script/timegan_ETTm2.sh > /dev/null 2>&1 &
+nohup bash ./scripts/ETT_script/timegan_ETTh1.sh > /dev/null 2>&1 &
+nohup bash ./scripts/ETT_script/timegan_ETTh2.sh > /dev/null 2>&1 &
 
 nohup bash ./scripts/xinjiang/timegan_xinjiang.sh > /dev/null 2>&1 &
+
+nohup bash ./scripts/Portugal/timegan_Portugal.sh > /dev/null 2>&1 &
 ```

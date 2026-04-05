@@ -122,7 +122,12 @@ def main (args):
     temp_disc = discriminative_score_metrics(ori_data, generated_data)
     discriminative_score.append(temp_disc)
       
-  metric_results['discriminative'] = np.mean(discriminative_score)
+  # metric_results['discriminative'] = np.mean(discriminative_score)
+  disc_mean = np.mean(discriminative_score)
+  disc_std = np.std(discriminative_score)
+  metric_results['discriminative'] = (disc_mean, disc_std)
+  print("Discriminative Score: {:.4f} ± {:.4f}".format(disc_mean, disc_std))
+
       
   # 2. Predictive score
   predictive_score = list()
@@ -130,8 +135,14 @@ def main (args):
     temp_pred = predictive_score_metrics(ori_data, generated_data)
     predictive_score.append(temp_pred)   
       
-  metric_results['predictive'] = np.mean(predictive_score)     
-          
+  # metric_results['predictive'] = np.mean(predictive_score)
+
+
+  pred_mean = np.mean(predictive_score)
+  pred_std = np.std(predictive_score)
+  metric_results['predictive'] = (pred_mean, pred_std)
+  print("Predictive Score: {:.4f} ± {:.4f}".format(pred_mean, pred_std))
+
   # 3. Visualization (PCA and tSNE)
   visualization(ori_data, generated_data, 'pca',fig_dir)
   visualization(ori_data, generated_data, 'tsne',fig_dir)
